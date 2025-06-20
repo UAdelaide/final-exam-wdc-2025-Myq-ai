@@ -1,15 +1,14 @@
 const express = require('express');
-const mysql = require('mysql2/promise');
-
+const sqlite3 = require('sqlite3').verbose();
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'DogWalkService'
+// …rest of your code…
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
+
 
 // GET /api/dogs
 app.get('/api/dogs', async (req, res) => {
@@ -68,6 +67,3 @@ app.get('/api/walkers/summary', async (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
