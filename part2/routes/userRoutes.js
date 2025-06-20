@@ -62,4 +62,5 @@ router.post('/login', async (req, res) => {
   }
 });
 // Export the router to be used in the main app
+
 module.exports = router;
