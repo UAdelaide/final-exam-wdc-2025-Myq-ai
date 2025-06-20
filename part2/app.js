@@ -8,10 +8,11 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(session({
-  secret: 'secure-session-secret', // 可以换成你自己的随机字符串
+  secret: 'secure-session-secret', // 
   resave: false,
   saveUninitialized: false
 }));
+
 
 app.use(express.static(path.join(__dirname, '/public')));
 
