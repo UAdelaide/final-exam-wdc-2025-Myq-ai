@@ -136,7 +136,7 @@
           // Define an async function to load the dogs owned by the currently logged-in user
           async function loadMyDogs() {
           try {
-             Get the currently logged-in user's data from the server
+             //Get the currently logged-in user's data from the server
             const user = await fetch('/api/users/me').then(r => r.json());
 
             const ownerId = user.user_id;
