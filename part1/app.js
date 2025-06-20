@@ -7,8 +7,8 @@ const PORT = 8080;
 // 1) 建立 MySQL 连接池
 const pool = mysql.createPool({
   host:     'localhost',
-  user:     '你的数据库用户名',
-  password: '你的数据库密码',
+  user:     'root',
+  password: '',
   database: 'DogWalkService',
   waitForConnections: true,
   connectionLimit: 10,
