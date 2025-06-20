@@ -69,7 +69,7 @@
     const form = document.getElementById('login-form');
 
     form.addEventListener('submit', async function (e) {
-      e.preventDefault(); // 
+      e.preventDefault(); // Prevent the default submission behavior of the form
 
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
@@ -86,7 +86,7 @@
         const data = await response.json();
 
         if (response.ok) {
-          // 根据用户角色跳转页面
+          // Jump to the page based on the user role
           if (data.user.role === 'owner') {
             window.location.href = '/owner-dashboard.html';
           } else if (data.user.role === 'walker') {
