@@ -63,17 +63,16 @@ router.post('/login', async (req, res) => {
 });
 // Export the router to be used in the main app
 
-// POST logout - destroy session and clear cookie
+// POST logout
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
       return res.status(500).json({ error: 'Logout failed' });
     }
-    res.clearCookie('connect.sid'); // 删除 session cookie
-    res.status(200).json({ message: 'Logged out' });
+    res.clearCookie('connect.sid'); // 删除 cookie
+    res.json({ message: 'Logout successful' });
   });
 });
-
 
 
 
