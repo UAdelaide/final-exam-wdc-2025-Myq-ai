@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 
 const dbFile = path.join(__dirname, 'dogwalks.db');
 const db = new sqlite3.Database(dbFile, err => {
@@ -12,7 +12,7 @@ const db = new sqlite3.Database(dbFile, err => {
   else console.log('SQLite connected');
 });
 
-// 如果你想自动执行 dogwalks.sql 来建表：
+
 const schema = fs.readFileSync(path.join(__dirname, 'dogwalks.sql'), 'utf8');
 db.exec(schema, err => {
   if (err) console.error('Schema load failed', err);
