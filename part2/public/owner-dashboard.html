@@ -24,7 +24,7 @@
         <form @submit.prevent="submitWalkRequest">
           <div class="mb-3">
             <label class="form-label">Select Your Dog</label>
-            
+
             <select v-model="form.dog_id" class="form-select" required>
               <option disabled value="">-- Choose a dog --</option>
               <option v-for="dog in myDogs" :key="dog.dog_id" :value="dog.dog_id">
@@ -143,6 +143,14 @@
          window.location.href = '/';  // Return to the login page
         }
 
+          async function loadMyDogs() {
+          try {
+            const res = await fetch('/api/walks/my-dogs');
+            myDogs.value = await res.json();
+          } catch (err) {
+            console.error('Failed to load dogs:', err);
+          }
+      }
 
         onMounted(() => {
           loadWalks();
