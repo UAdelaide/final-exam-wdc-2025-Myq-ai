@@ -74,6 +74,18 @@ router.post('/logout', (req, res) => {
   });
 });
 
+router.get('/owners/:id/dogs', async (req, res) => {
+  const ownerId = req.params.id;
 
+  try {
+    const [rows] = await db.query(
+      'SELECT dog_id, name FROM Dogs WHERE owner_id = ?',
+      [ownerId]
+    );
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch dogs' });
+  }
+});
 
 module.exports = router;
