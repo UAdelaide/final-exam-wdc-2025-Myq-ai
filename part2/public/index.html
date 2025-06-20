@@ -60,7 +60,7 @@
           const data = await response.json();
 
           if (response.ok) {
-            // 登录成功，根据角色跳转
+            
             if (data.user.role === 'owner') {
               window.location.href = '/owner-dashboard.html';
             } else if (data.user.role === 'walker') {
