@@ -4,7 +4,7 @@ const mysql = require('mysql2/promise');
 const app = express();
 const PORT = 8080;
 
-// 1) 建立 MySQL 连接池
+
 const pool = mysql.createPool({
   host:     'localhost',
   user:     'root',
