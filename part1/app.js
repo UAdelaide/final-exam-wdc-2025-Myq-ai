@@ -56,7 +56,7 @@ app.get('/api/walkrequests/open', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: '查询 /api/walkrequests/open 失败' });
+    res.status(500).json({ error: 'Query /api/walkers/summary failed' });
   }
 });
 
@@ -93,7 +93,7 @@ app.get('/api/walkers/summary', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: '查询 /api/walkers/summary 失败' });
+    res.status(500).json({ error: 'Query /api/walkers/summary failed' });
   }
 });
 
