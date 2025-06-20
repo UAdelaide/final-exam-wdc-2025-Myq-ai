@@ -74,17 +74,7 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// POST /logout - End the session and return to login
-router.post('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error('Failed to destroy session:', err);
-      return res.status(500).json({ error: 'Logout failed' });
-    }
-    res.clearCookie('connect.sid'); // Clear session cookie
-    res.status(200).json({ message: 'Logged out successfully' });
-  });
-});
+
 
 
 module.exports = router;
