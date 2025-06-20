@@ -119,11 +119,7 @@
           }
         }
 
-        onMounted(() => {
-          loadWalks();
-        });
-
-        async function logout() {
+         async function logout() {
   try {
     const res = await fetch('/api/users/logout', {
       method: 'POST'
@@ -137,6 +133,12 @@
     alert('Logout error');
   }
 }
+
+        onMounted(() => {
+          loadWalks();
+        });
+
+
 
 
         return {
