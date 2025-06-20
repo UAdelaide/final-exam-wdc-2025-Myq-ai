@@ -6,7 +6,6 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
-// 连接或创建数据库
 const dbFile = path.join(__dirname, 'dogwalks.db');
 const db = new sqlite3.Database(dbFile, err => {
   if (err) console.error(err);
