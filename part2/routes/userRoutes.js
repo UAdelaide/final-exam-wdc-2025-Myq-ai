@@ -57,11 +57,8 @@ router.post('/login', async (req, res) => {
     };
 
     // Jump according to the role
-    if (rows[0].role === 'owner') {
-      return res.redirect('/owner-dashboard.html');
-    } else {
-      return res.redirect('/walker-dashboard.html');
-    }
+    return res.redirect('/');
+
 
   } catch (error) {
     console.error(error);
