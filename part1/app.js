@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 
 const app = express();
-const PORT = 8080;  // 根据需要修改
+const PORT = 8080;
 
 // 1) 建立 MySQL 连接池
 const pool = mysql.createPool({
@@ -17,7 +17,6 @@ const pool = mysql.createPool({
 
 /**
  * GET /api/dogs
- * 返回：所有狗 + 尺寸 + 主人用户名
  */
 app.get('/api/dogs', async (req, res) => {
   try {
@@ -38,7 +37,6 @@ app.get('/api/dogs', async (req, res) => {
 
 /**
  * GET /api/walkrequests/open
- * 返回：状态为 open 的所有遛狗请求
  */
 app.get('/api/walkrequests/open', async (req, res) => {
   try {
@@ -63,10 +61,7 @@ app.get('/api/walkrequests/open', async (req, res) => {
 });
 
 /**
- * GET /api/walkers/summary
- * 返回：每个 walker 的汇总（用户名、总评分数、平均评分、完成次数）
- * 假设有 Ratings 表，字段为 (rating_id, walker_id, walk_id, rating)
- * 且 WalkRequests.accepted_walker_id 存储被接受的 walker
+
  */
 app.get('/api/walkers/summary', async (req, res) => {
   try {
