@@ -71,8 +71,7 @@ setup() {
         headers: { 'Content-Type': 'application/json' },
         const user = await getCurrentUser();
         body: JSON.stringify({ walker_id: user.user_id })
-
-      });
+});
       const result = await res.json();
 
       if (!res.ok) throw new Error(result.error || 'Application failed');
