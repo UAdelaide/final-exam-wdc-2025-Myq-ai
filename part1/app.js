@@ -56,7 +56,7 @@ app.get('/api/walkrequests/open', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Query /api/walkrequests/open failed' });
+    res.status(500).json({ error: '查询 /api/walkrequests/open 失败' });
   }
 });
 
