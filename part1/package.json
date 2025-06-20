@@ -4,6 +4,7 @@
     "mysql2": "^3.14.1"
   }
 }
+
 {
   "name": "dogwalk-service",
   "version": "1.0.0",
