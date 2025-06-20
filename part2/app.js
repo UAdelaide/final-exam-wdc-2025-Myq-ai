@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
         : '/walker-dashboard.html'
     );
   }
-  // 未登录，显示首页（含登录表单）
+  // Not logged in, the home page (including the login form) is displayed.
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
