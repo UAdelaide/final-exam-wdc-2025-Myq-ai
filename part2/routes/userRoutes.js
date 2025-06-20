@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).send('Invalid credentials');
     }
 
-    // 保存用户登录信息到 session
+    // Save the user login information to the session
     req.session.user = {
       user_id: rows[0].user_id,
       username: rows[0].username,
