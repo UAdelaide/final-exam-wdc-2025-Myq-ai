@@ -1,0 +1,107 @@
+const express = require('express');
+const mysql = require('mysql2/promise');
+
+const app = express();
+const PORT = 8080;  // 根据需要修改
+
+// 1) 建立 MySQL 连接池
+const pool = mysql.createPool({
+  host:     'localhost',
+  user:     '你的数据库用户名',
+  password: '你的数据库密码',
+  database: 'DogWalkService',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+/**
+ * GET /api/dogs
+ * 返回：所有狗 + 尺寸 + 主人用户名
+ */
+app.get('/api/dogs', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        d.name       AS dog_name,
+        d.size       AS size,
+        u.username   AS owner_username
+      FROM Dogs d
+      JOIN Users u ON d.owner_id = u.user_id
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '查询 /api/dogs 失败' });
+  }
+});
+
+/**
+ * GET /api/walkrequests/open
+ * 返回：状态为 open 的所有遛狗请求
+ */
+app.get('/api/walkrequests/open', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        wr.request_id,
+        d.name                AS dog_name,
+        wr.requested_time,
+        wr.duration_minutes,
+        wr.location,
+        u.username            AS owner_username
+      FROM WalkRequests wr
+      JOIN Dogs d ON wr.dog_id = d.dog_id
+      JOIN Users u ON d.owner_id = u.user_id
+      WHERE wr.status = 'open'
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '查询 /api/walkrequests/open 失败' });
+  }
+});
+
+/**
+ * GET /api/walkers/summary
+ * 返回：每个 walker 的汇总（用户名、总评分数、平均评分、完成次数）
+ * 假设有 Ratings 表，字段为 (rating_id, walker_id, walk_id, rating)
+ * 且 WalkRequests.accepted_walker_id 存储被接受的 walker
+ */
+app.get('/api/walkers/summary', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        u.username AS walker_username,
+        IFNULL(r.total_ratings, 0)     AS total_ratings,
+        r.average_rating,
+        IFNULL(w.completed_walks, 0)   AS completed_walks
+      FROM Users u
+      LEFT JOIN (
+        SELECT
+          walker_id,
+          COUNT(*)         AS total_ratings,
+          ROUND(AVG(rating),2) AS average_rating
+        FROM Ratings
+        GROUP BY walker_id
+      ) r ON u.user_id = r.walker_id
+      LEFT JOIN (
+        SELECT
+          accepted_walker_id AS walker_id,
+          COUNT(*)           AS completed_walks
+        FROM WalkRequests
+        WHERE status = 'completed'
+        GROUP BY accepted_walker_id
+      ) w ON u.user_id = w.walker_id
+      WHERE u.role = 'walker'
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '查询 /api/walkers/summary 失败' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
