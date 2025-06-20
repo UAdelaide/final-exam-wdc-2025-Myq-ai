@@ -8,6 +8,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: 'secure-session-secret', // It can be replaced with your own random string
   resave: false,
