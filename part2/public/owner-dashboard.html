@@ -120,9 +120,9 @@
         }
 
         async function logout() {
-  await fetch('/api/users/logout', { method: 'POST' });
-  window.location.href = '/';  // 回到登录页
-}
+         await fetch('/api/users/logout', { method: 'POST' });
+         window.location.href = '/';  // 回到登录页
+        }
 
 
         onMounted(() => {
