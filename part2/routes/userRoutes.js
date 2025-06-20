@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // 设置登录会话
+    // Set up login session
     req.session.user = {
       user_id: rows[0].user_id,
       username: rows[0].username,
