@@ -9,7 +9,6 @@ const app = express();
 app.use(express.json());
 app.use(session({
   secret: 'secure-session-secret', // It can be replaced with your own random string
-
   resave: false,
   saveUninitialized: false
 }));
