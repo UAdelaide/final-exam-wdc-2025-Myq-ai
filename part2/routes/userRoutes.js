@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
 
 // POST a new user (simple signup)
 router.post('/register', async (req, res) => {
+  // Extract user data from the request body
   const { username, email, password, role } = req.body;
 
   try {
