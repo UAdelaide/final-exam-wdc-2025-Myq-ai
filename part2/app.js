@@ -15,6 +15,19 @@ app.use(session({
 
 
 app.use(express.static(path.join(__dirname, '/public')));
+app.get('/', (req, res) => {
+  if (req.session.user) {
+    // 已登录，根据用户角色跳转到对应页面
+    return res.redirect(
+      req.session.user.role === 'owner'
+        ? '/owner-dashboard.html'
+        : '/walker-dashboard.html'
+    );
+  }
+  // 未登录，显示首页（含登录表单）
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 
 // Routes
 const walkRoutes = require('./routes/walkRoutes');
