@@ -137,13 +137,17 @@
           async function loadMyDogs() {
           try {
             const user = await fetch('/api/users/me').then(r => r.json());
-            const ownerId = user.user_id;
-            if (!ownerId) throw new Error("Not logged in");
 
+            const ownerId = user.user_id;
+
+            if (!ownerId) throw new Error("Not logged in");
             const res = await fetch(`/api/users/owners/${ownerId}/dogs`);
             if (!res.ok) throw new Error("Failed to fetch dogs");
+
             myDogs.value = await res.json();
+
           } catch (err) {
+            
             console.error('Failed to load dogs:', err);
           }
       }
