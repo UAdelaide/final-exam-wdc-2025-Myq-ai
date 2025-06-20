@@ -62,6 +62,7 @@ router.post('/login', async (req, res) => {
   }
 });
 // Export the router to be used in the main app
+
 // POST logout - destroy session and clear cookie
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
@@ -72,5 +73,6 @@ router.post('/logout', (req, res) => {
     res.status(200).json({ message: 'Logged out' });
   });
 });
+
 
 module.exports = router;
