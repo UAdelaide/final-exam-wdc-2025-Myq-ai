@@ -85,6 +85,7 @@ router.get('/owners/:id/dogs', async (req, res) => {
     );
     res.json(rows);
   } catch (error) {
+    // If there's a database error, respond with a 500 status and error message
     res.status(500).json({ error: 'Failed to fetch dogs' });
   }
 });
