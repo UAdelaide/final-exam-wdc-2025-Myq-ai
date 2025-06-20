@@ -36,6 +36,7 @@ router.get('/me', (req, res) => {
 });
 
 // POST login (dummy version)
+// POST login
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -46,24 +47,20 @@ router.post('/login', async (req, res) => {
     `, [username, password]);
 
     if (rows.length === 0) {
-      return res.status(401).send('Invalid credentials');
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Save the user login information to the session
-    req.session.user = {
-      user_id: rows[0].user_id,
-      username: rows[0].username,
-      role: rows[0].role
-    };
+    const user = rows[0];
+    req.session.user = user;
 
-    // Jump according to the role
-    return res.redirect('/');
-
+    // 返回 JSON 而不是重定向
+    res.status(200).json({ message: 'Login successful', user });
 
   } catch (error) {
     console.error(error);
-    res.status(500).send('Login failed');
+    res.status(500).json({ error: 'Login failed' });
   }
 });
+
 
 module.exports = router;
