@@ -124,10 +124,10 @@
         });
 
         async function logout() {
-  try {
-    const res = await fetch('/api/users/logout', {
-      method: 'POST'
-    });
+         try {
+           const res = await fetch('/api/users/logout', {
+             method: 'POST'
+       });
     if (res.ok) {
       window.location.href = '/'; // Return to the login page
     } else {
