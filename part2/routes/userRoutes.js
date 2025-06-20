@@ -78,6 +78,7 @@ router.get('/owners/:id/dogs', async (req, res) => {
   const ownerId = req.params.id;
 
   try {
+     // Query the database to get dog_id and name for dogs owned by this owner
     const [rows] = await db.query(
       'SELECT dog_id, name FROM Dogs WHERE owner_id = ?',
       [ownerId]
