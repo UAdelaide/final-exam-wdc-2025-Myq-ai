@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
       return res.status(500).send('Failed to load homepage');
     }
 
-    // 注入用户信息作为 JS 脚本插入页面中
+    // 
     const userScript = `
       <script>
         window.loggedInUser = ${JSON.stringify(req.session.user || null)};
