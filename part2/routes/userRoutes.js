@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
       role: rows[0].role
     };
 
-    // 根据角色跳转
+    // Jump according to the role
     if (rows[0].role === 'owner') {
       return res.redirect('/owner-dashboard.html');
     } else {
