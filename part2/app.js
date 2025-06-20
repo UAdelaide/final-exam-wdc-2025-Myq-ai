@@ -1,4 +1,4 @@
-const session = require('express-session'); // 新增：引入 session 模块
+const session = require('express-session'); // New addition: Introduce the session module
 const express = require('express');
 const path = require('path');
 require('dotenv').config();
@@ -8,7 +8,8 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(session({
-  secret: 'secure-session-secret', // 
+  secret: 'secure-session-secret', // It can be replaced with your own random string
+
   resave: false,
   saveUninitialized: false
 }));
