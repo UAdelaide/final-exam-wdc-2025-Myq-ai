@@ -17,17 +17,23 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
-  if (req.session.user) {
-    // Logged in, redirected to the corresponding page based on the user role
-    return res.redirect(
-      req.session.user.role === 'owner'
-        ? '/owner-dashboard.html'
-        : '/walker-dashboard.html'
-    );
-  }
-  // Not logged in, the home page (including the login form) is displayed.
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  fs.readFile(path.join(__dirname, 'public/index.html'), 'utf8', (err, html) => {
+    if (err) {
+      return res.status(500).send('Failed to load homepage');
+    }
+
+    // 注入用户信息作为 JS 脚本插入页面中
+    const userScript = `
+      <script>
+        window.loggedInUser = ${JSON.stringify(req.session.user || null)};
+      </script>
+    `;
+
+    const modifiedHtml = html.replace('</head>', `${userScript}</head>`);
+    res.send(modifiedHtml);
+  });
 });
+
 
 
 // Routes
