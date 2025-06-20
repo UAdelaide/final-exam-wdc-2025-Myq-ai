@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dog Walking Service - Dog of the Day</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #eee; color: #333; }
+    .header { background: linear-gradient(45deg, #ffcc00, #ff6600); padding: 20px; text-align: center; }
+    .dog-details { margin: 20px; }
+    .dog-details h1 { animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .fetch-button { background: red; color: yellow; padding: 10px; border: none; cursor: pointer; }
+    .dog-image { width: 200px; height: 200px; border-radius: 50%; transition: transform 0.2s ease; }
+    .dog-image:hover { transform: rotate(20deg) scale(1.2); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <img :src="logo" alt="" width="100" height="100">
+      <h1>Welcome to Dog Walkers!</h1>
+    </div>
+    <div class="dog-details">
+      <h1>Dog of the Day: {{ dog.name }} the {{ dog.size }}</h1>
+      <p>Breed: Golden Retriever</p>
+      <button class="fetch-button" @click="fetchDog">Get New Dog!</button>
+      <div>
+        <img class="dog-image" :src="imageUrl">
+      </div>
+    </div>
+    <div style="position: absolute; top:0; right:0;">
+      <marquee>Call us now at 123-456-7890!</marquee>
+    </div>
+  </div>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          logo: '/assets/logo.png',
+          dog: { name: 'Max', size: 'Large' },
+          imageUrl: ''
+        }
+      },
+      methods: {
+        async fetchDog() {
+          try {
+            const res = await fetch('https://dog.ceo/api/breeds/image/random');
+            const data = await res.json();
+            this.imageUrl = data.message;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      },
+      mounted() {
+        this.fetchDog();
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
