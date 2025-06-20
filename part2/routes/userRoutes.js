@@ -49,10 +49,24 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    res.json({ message: 'Login successful', user: rows[0] });
+    // 设置登录会话
+    req.session.user = {
+      user_id: rows[0].user_id,
+      username: rows[0].username,
+      role: rows[0].role
+    };
+
+    // 登录成功后根据角色跳转
+    if (rows[0].role === 'owner') {
+      res.redirect('/owner-dashboard.html');
+    } else {
+      res.redirect('/walker-dashboard.html');
+    }
+
   } catch (error) {
     res.status(500).json({ error: 'Login failed' });
   }
 });
+
 
 module.exports = router;
