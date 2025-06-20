@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
       return res.status(500).send('Failed to load homepage');
     }
 
-    // 
+    // Inject user information as a JS script and insert it into the page
     const userScript = `
       <script>
         window.loggedInUser = ${JSON.stringify(req.session.user || null)};
