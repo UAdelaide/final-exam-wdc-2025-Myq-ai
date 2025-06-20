@@ -17,7 +17,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
   if (req.session.user) {
-    // 已登录，根据用户角色跳转到对应页面
+    // Logged in, redirected to the corresponding page based on the user role
     return res.redirect(
       req.session.user.role === 'owner'
         ? '/owner-dashboard.html'
