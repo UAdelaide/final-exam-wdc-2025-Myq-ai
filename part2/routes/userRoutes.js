@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
       INSERT INTO Users (username, email, password_hash, role)
       VALUES (?, ?, ?, ?)
     `, [username, email, password, role]);
-
+    // Respond with success and the new user's ID
     res.status(201).json({ message: 'User registered', user_id: result.insertId });
   } catch (error) {
     res.status(500).json({ error: 'Registration failed' });
