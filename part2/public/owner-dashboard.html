@@ -125,6 +125,22 @@
           loadWalks();
         });
 
+        async function logout() {
+  try {
+    const res = await fetch('/api/users/logout', {
+      method: 'POST'
+    });
+    if (res.ok) {
+      window.location.href = '/'; // 返回登录页面
+    } else {
+      alert('Logout failed');
+    }
+  } catch (err) {
+    alert('Logout error');
+  }
+}
+
+
         return {
           form,
           walks,
