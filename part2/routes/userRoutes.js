@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
     const user = rows[0];
     req.session.user = user;
 
-    // 
+    // Return JSON instead of redirection
     res.status(200).json({ message: 'Login successful', user });
 
   } catch (error) {
