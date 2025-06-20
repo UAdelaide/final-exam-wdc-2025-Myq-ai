@@ -73,7 +73,7 @@ router.post('/logout', (req, res) => {
     res.json({ message: 'Logout successful' });
   });
 });
-
+// Define a GET route to fetch all dogs belonging to a specific owner
 router.get('/owners/:id/dogs', async (req, res) => {
   const ownerId = req.params.id;
 
