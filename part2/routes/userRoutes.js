@@ -60,5 +60,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Login failed' });
   }
 });
-
+// Export the router to be used in the main app
 module.exports = router;
