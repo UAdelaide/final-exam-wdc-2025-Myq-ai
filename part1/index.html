@@ -1,91 +1,63 @@
-const express = require('express');
-const mysql = require('mysql2/promise');
-
-const app = express();
-const PORT = 8080;
-
-// MySQL 连接池
-const pool = mysql.createPool({
-  host:     'localhost',
-  user:     'root',           // 改成你的用户名
-  password: '你的密码',         // 改成你的密码
-  database: 'DogWalkService',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
-
-// GET /api/dogs
-app.get('/api/dogs', async (req, res) => {
-  try {
-    const [rows] = await pool.query(`
-      SELECT d.name AS dog_name, d.size, u.username AS owner_username
-      FROM Dogs d
-      JOIN Users u ON d.owner_id = u.user_id
-    `);
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: '查询 /api/dogs 失败' });
-  }
-});
-
-// GET /api/walkrequests/open
-app.get('/api/walkrequests/open', async (req, res) => {
-  try {
-    const [rows] = await pool.query(`
-      SELECT
-        wr.request_id,
-        d.name AS dog_name,
-        wr.requested_time,
-        wr.duration_minutes,
-        wr.location,
-        u.username AS owner_username
-      FROM WalkRequests wr
-      JOIN Dogs d ON wr.dog_id = d.dog_id
-      JOIN Users u ON d.owner_id = u.user_id
-      WHERE wr.status = 'open'
-    `);
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: '查询 /api/walkrequests/open 失败' });
-  }
-});
-
-// GET /api/walkers/summary
-app.get('/api/walkers/summary', async (req, res) => {
-  try {
-    const [rows] = await pool.query(`
-      SELECT
-        u.username AS walker_username,
-        IFNULL(r.total_ratings, 0)       AS total_ratings,
-        r.average_rating,
-        IFNULL(w.completed_walks, 0)     AS completed_walks
-      FROM Users u
-      LEFT JOIN (
-        SELECT walker_id,
-               COUNT(*)             AS total_ratings,
-               ROUND(AVG(rating),2) AS average_rating
-        FROM Ratings
-        GROUP BY walker_id
-      ) r ON u.user_id = r.walker_id
-      LEFT JOIN (
-        SELECT accepted_walker_id AS walker_id,
-               COUNT(*)           AS completed_walks
-        FROM WalkRequests
-        WHERE status = 'completed'
-        GROUP BY accepted_walker_id
-      ) w ON u.user_id = w.walker_id
-      WHERE u.role = 'walker'
-    `);
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: '查询 /api/walkers/summary 失败' });
-  }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dog Walking Service - Dog of the Day</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #eee; color: #333; }
+    .header { background: linear-gradient(45deg, #ffcc00, #ff6600); padding: 20px; text-align: center; }
+    .dog-details { margin: 20px; }
+    .dog-details h1 { animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .fetch-button { background: red; color: yellow; padding: 10px; border: none; cursor: pointer; }
+    .dog-image { width: 200px; height: 200px; border-radius: 50%; transition: transform 0.2s ease; }
+    .dog-image:hover { transform: rotate(20deg) scale(1.2); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <img :src="logo" alt="" width="100" height="100">
+      <h1>Welcome to Dog Walkers!</h1>
+    </div>
+    <div class="dog-details">
+      <h1>Dog of the Day: {{ dog.name }} the {{ dog.size }}</h1>
+      <p>Breed: Golden Retriever</p>
+      <button class="fetch-button" @click="fetchDog">Get New Dog!</button>
+      <div>
+        <img class="dog-image" :src="imageUrl">
+      </div>
+    </div>
+    <div style="position: absolute; top:0; right:0;">
+      <marquee>Call us now at 123-456-7890!</marquee>
+    </div>
+  </div>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          logo: '/assets/logo.png',
+          dog: { name: 'Max', size: 'Large' },
+          imageUrl: ''
+        }
+      },
+      methods: {
+        async fetchDog() {
+          try {
+            const res = await fetch('https://dog.ceo/api/breeds/image/random');
+            const data = await res.json();
+            this.imageUrl = data.message;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      },
+      mounted() {
+        this.fetchDog();
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
