@@ -1,5 +1,5 @@
 const express = require('express');
-const 
+const mysql
 
 const app = express();
 const PORT = 8080;
