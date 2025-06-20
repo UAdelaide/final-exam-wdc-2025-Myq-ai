@@ -1,6 +1,7 @@
 const session = require('express-session'); // New addition: Introduce the session module
 const express = require('express');
 const path = require('path');
+const fs = require('fs'); // 
 require('dotenv').config();
 
 const app = express();
