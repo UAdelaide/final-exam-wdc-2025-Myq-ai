@@ -36,7 +36,6 @@ router.get('/me', (req, res) => {
 });
 
 // POST login (dummy version)
-// POST login
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -53,7 +52,7 @@ router.post('/login', async (req, res) => {
     const user = rows[0];
     req.session.user = user;
 
-    // 返回 JSON 而不是重定向
+    // 
     res.status(200).json({ message: 'Login successful', user });
 
   } catch (error) {
