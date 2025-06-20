@@ -87,7 +87,7 @@
         const data = await response.json();
 
         if (response.ok) {
-          // 根据用户角色跳转页面
+          // Jump to the page based on the user role
           if (data.user.role === 'owner') {
             window.location.href = '/owner-dashboard.html';
           } else if (data.user.role === 'walker') {
