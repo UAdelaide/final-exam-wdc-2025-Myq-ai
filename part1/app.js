@@ -64,6 +64,30 @@ app.get('/api/walkrequests/open', (req, res) => {
   }
 });
 
+app.get('/api/walkers/summary', (req, res) => {
+  try {
+    const sql = `
+      SELECT
+        u.username                  AS walker_username,
+        COUNT(wr.rating)            AS total_ratings,
+        ROUND(AVG(wr.rating), 2)    AS average_rating,
+        COUNT(wr.request_id)        AS completed_walks
+      FROM Users u
+      LEFT JOIN WalkRatings wr
+        ON u.user_id = wr.walker_id
+      WHERE u.role = 'walker'
+      GROUP BY u.user_id
+    `;
+    db.all(sql, [], (err, rows) => {
+      if (err) throw err;
+      res.json(rows);
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
