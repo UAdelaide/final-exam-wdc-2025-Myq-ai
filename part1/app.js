@@ -4,16 +4,11 @@ const mysql = require('mysql2/promise');
 const app = express();
 const PORT = 8080;
 
-const dbFile = path.join(__dirname, 'dogwalks.db');
-const db = new sqlite3.Database(dbFile, err => {
-  if (err) console.error(err);
-  else console.log('SQLite connected');
-});
-
-
-const schema = fs.readFileSync(path.join(__dirname, 'dogwalks.sql'), 'utf8');
-db.exec(schema, err => {
-  if (err) console.error('Schema load failed', err);
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'DogWalkService'
 });
 
 app.get('/api/dogs', (req, res) => {
