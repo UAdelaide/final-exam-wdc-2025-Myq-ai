@@ -101,7 +101,17 @@
           }
         }
 
-        
+        async function loadMyDogs() {
+          try {
+            const res = await fetch('/api/walks/mydogs');
+            if (!res.ok) throw new Error('Failed to load your dogs');
+            myDogs.value = await res.json();
+          } catch (err) {
+            console.error('Dog load error:', err);
+          }
+        }
+
+
         async function submitWalkRequest() {
           try {
             const res = await fetch('/api/walks', {
