@@ -1,3 +1,4 @@
+const session = require('express-session'); // 新增：引入 session 模块
 const express = require('express');
 const path = require('path');
 require('dotenv').config();
