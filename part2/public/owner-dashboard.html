@@ -133,9 +133,10 @@
          await fetch('/api/users/logout', { method: 'POST' });
          window.location.href = '/';  // Return to the login page
         }
-
+          // Define an async function to load the dogs owned by the currently logged-in user
           async function loadMyDogs() {
           try {
+             Get the currently logged-in user's data from the server
             const user = await fetch('/api/users/me').then(r => r.json());
 
             const ownerId = user.user_id;
@@ -147,7 +148,7 @@
             myDogs.value = await res.json();
 
           } catch (err) {
-            
+
             console.error('Failed to load dogs:', err);
           }
       }
