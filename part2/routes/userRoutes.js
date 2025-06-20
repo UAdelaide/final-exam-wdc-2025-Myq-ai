@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
       role: rows[0].role
     };
 
-    // 登录成功后根据角色跳转
+    // After a successful login, you will be redirected according to your role
     if (rows[0].role === 'owner') {
       res.redirect('/owner-dashboard.html');
     } else {
