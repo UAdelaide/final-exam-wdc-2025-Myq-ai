@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
 
   try {
      // Query database to check if user with matching username and hashed password exists
-    const [rows] = awaitdb.query(`
+    const [rows] = await db.query(`
       SELECT user_id, username, role FROM Users
       WHERE username = ? AND password_hash = ?
     `, [username, password]);
