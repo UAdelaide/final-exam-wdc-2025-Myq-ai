@@ -46,27 +46,25 @@ router.post('/login', async (req, res) => {
     `, [username, password]);
 
     if (rows.length === 0) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).send('Invalid credentials');
     }
 
-    // Set up login session
+    // 保存用户登录信息到 session
     req.session.user = {
       user_id: rows[0].user_id,
       username: rows[0].username,
       role: rows[0].role
     };
 
-    // After a successful login, you will be redirected according to your role
+    // 根据角色跳转
     if (rows[0].role === 'owner') {
-      res.redirect('/owner-dashboard.html');
+      return res.redirect('/owner-dashboard.html');
     } else {
-      res.redirect('/walker-dashboard.html');
+      return res.redirect('/walker-dashboard.html');
     }
 
   } catch (error) {
-    res.status(500).json({ error: 'Login failed' });
+    console.error(error);
+    res.status(500).send('Login failed');
   }
 });
-
-
-module.exports = router;
