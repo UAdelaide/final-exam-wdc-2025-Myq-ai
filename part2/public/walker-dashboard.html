@@ -77,19 +77,9 @@
   }
 
   async function logout() {
-    try {
-      const res = await fetch('/api/users/logout', {
-        method: 'POST'
-      });
-      if (res.ok) {
-        window.location.href = '/';
-      } else {
-        alert('Logout failed');
-      }
-    } catch (err) {
-      alert('Logout error');
-    }
-  }
+   await fetch('/api/users/logout', { method: 'POST' });
+         window.location.href = '/';  // Return to the login page
+        }
 
   onMounted(() => {
     loadWalkRequests();
