@@ -123,10 +123,10 @@
           try {
             const res = await fetch('/api/users/logout', {
               method: 'POST'
-       });
+            });
 
-    if (res.ok) {
-      window.location.href = '/'; // Return to the login page
+            if (res.ok) {
+             window.location.href = '/'; // Return to the login page
     } else {
       alert('Logout failed');
     }
