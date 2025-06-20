@@ -18,11 +18,17 @@ db.exec(schema, err => {
   if (err) console.error('Schema load failed', err);
 });
 
-// 这里粘 /api/dogs 路由
 app.get('/api/dogs', (req, res) => {
   try {
-    const sql = `SELECT d.name AS dog_name, d.size, u.username AS owner_username
-                 FROM Dogs d JOIN Users u ON d.owner_id = u.user_id`;
+    const sql = `
+      SELECT
+        d.name       AS dog_name,
+        d.size       AS size,
+        u.username   AS owner_username
+      FROM Dogs d
+      JOIN Users u
+        ON d.owner_id = u.user_id
+    `;
     db.all(sql, [], (err, rows) => {
       if (err) throw err;
       res.json(rows);
@@ -31,6 +37,7 @@ app.get('/api/dogs', (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
