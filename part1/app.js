@@ -31,7 +31,7 @@ app.get('/api/dogs', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: '查询 /api/dogs 失败' });
+    res.status(500).json({ error: 'Query /api/dogs failed' });
   }
 });
 
