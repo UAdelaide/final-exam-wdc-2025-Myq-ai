@@ -42,7 +42,7 @@
 
     createApp({
       setup() {
-  const walks = ref([]);
+        const walks = ref([]);
   const message = ref('');
   const error = ref('');
   const user = 3;
@@ -79,7 +79,7 @@
   async function logout() {
    await fetch('/api/users/logout', { method: 'POST' });
    window.location.href = '/';  // Return to the login page
-  
+
 
   onMounted(() => {
     loadWalkRequests();
